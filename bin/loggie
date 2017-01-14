@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+# Enables search from the console
+
+require "bundler/setup"
+require 'loggie'
+puts Loggie.search query: ARGV[0]

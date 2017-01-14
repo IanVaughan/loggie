@@ -1,0 +1,44 @@
+D, [2017-01-14T23:31:16.345847 #6211] DEBUG -- : Loggie::Logentries::Search options:{:logs=>["e20bd6af-dc1e-4190-ba25-c5948d92a679", "c83c7cd7-aa66-446d-9e71-00f8478cbd11", "6fb426fd-dea7-4712-99b1-66ca59084ab8", "776dfea9-7bd4-4a64-8deb-1fab6f26f599"], :leql=>{:during=>{:from=>1483831876345, :to=>1484436676345}, :statement=>"where(c0c1d3570376a936df3fd5dfa8b9cf7ceb9925b44746d3623cae01770e545807)"}}, url:https://rest.logentries.com/query/logs
+[1] pry(Loggie::Extract)> [1] pry(Loggie::Extract)> [1] pry(Loggie::Extract)> [1] pry(Loggie::Extract)> exit-program[1] pry(Loggie::Extract)> [1] pry(Loggie::Extract)> [K[1] pry(Loggie::Extract)> exit
+
+[1mFrom:[0m /Users/ian/Quiqup/loggie/lib/loggie/extract.rb @ line 41 Loggie::Extract.call:
+
+    [1;34m36[0m: [32mdef[0m [1;36mself[0m.[1;34mcall[0m(result, keep = [1;34;4mDEFAULT_KEEP_FIELDS[0m)
+    [1;34m37[0m:   [32mreturn[0m [32mif[0m result.nil?
+    [1;34m38[0m: 
+    [1;34m39[0m:   result.map [32mdo[0m |r|
+    [1;34m40[0m:     m = format(r[[31m[1;31m"[0m[31mmessage[1;31m"[0m[31m[0m], keep)
+ => [1;34m41[0m:     binding.pry
+    [1;34m42[0m: 
+    [1;34m43[0m:     {
+    [1;34m44[0m:       [35mtimestamp[0m: [1;34;4mTime[0m.at(r[[31m[1;31m"[0m[31mtimestamp[1;31m"[0m[31m[0m] / [1;34m1000[0m).to_datetime,
+    [1;34m45[0m:       [35mmessage[0m: m
+    [1;34m46[0m:       [1;34m# raw: r["message"][0m
+    [1;34m47[0m:     }
+    [1;34m48[0m:   [32mend[0m
+    [1;34m49[0m: [32mend[0m
+
+[0G
+
+
+
+
+
+[1mFrom:[0m /Users/ian/Quiqup/loggie/lib/loggie/extract.rb @ line 41 Loggie::Extract.call:
+
+    [1;34m36[0m: [32mdef[0m [1;36mself[0m.[1;34mcall[0m(result, keep = [1;34;4mDEFAULT_KEEP_FIELDS[0m)
+    [1;34m37[0m:   [32mreturn[0m [32mif[0m result.nil?
+    [1;34m38[0m: 
+    [1;34m39[0m:   result.map [32mdo[0m |r|
+    [1;34m40[0m:     m = format(r[[31m[1;31m"[0m[31mmessage[1;31m"[0m[31m[0m], keep)
+ => [1;34m41[0m:     binding.pry
+    [1;34m42[0m: 
+    [1;34m43[0m:     {
+    [1;34m44[0m:       [35mtimestamp[0m: [1;34;4mTime[0m.at(r[[31m[1;31m"[0m[31mtimestamp[1;31m"[0m[31m[0m] / [1;34m1000[0m).to_datetime,
+    [1;34m45[0m:       [35mmessage[0m: m
+    [1;34m46[0m:       [1;34m# raw: r["message"][0m
+    [1;34m47[0m:     }
+    [1;34m48[0m:   [32mend[0m
+    [1;34m49[0m: [32mend[0m
+
+[1] pry(Loggie::Extract)> [K[1] pry(Loggie::Extract)> a"[K[1] pry(Loggie::Extract)> a"[0G
