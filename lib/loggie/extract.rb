@@ -1,17 +1,17 @@
 module Loggie
   class Extract
     # The full log contains many fields, most are excluded by default
-    # "remote_addr"=>"85.255.232.161",
+    # "remote_addr"=>"11.11.11.161",
     # "request_method"=>"GET",
-    # "path_info"=>"/customer/user",
+    # "path_info"=>"/foo/user",
     # "query_string"=>"device_id=00000000-0000-0000-0000-000000000000",
     # "version"=>"HTTP/1.1",
-    # "host"=>"api.quiqup.com",
+    # "host"=>"server.com",
     # "origin"=>nil,
     # "connection"=>nil,
     # "proxy_connection"=>nil,
     # "referer"=>nil,
-    # "x_forwared_for"=>"85.255.232.161",
+    # "x_forwared_for"=>"11.111.232.161",
     # "x_forwared_proto"=>"https",
     # "x_forwared_port"=>"443",
     # "accept"=>"*/*",
@@ -19,12 +19,12 @@ module Loggie
     # "accept_language"=>"en-gb",
     # "content_length"=>nil,
     # "content_type"=>nil,
-    # "agent"=>"QU/IOS/Customer/1.7.2",
-    # "user_agent"=>"QUVoila/1358 CFNetwork/808.2.16 Darwin/16.3.0",
-    # "authorization"=>"bearer c0c1d3570376a936df3fd5dfa8b9cf7ceb9925b44746d3623cae01770e545807",
+    # "agent"=>"version",
+    # "user_agent"=>"app",
+    # "authorization"=>"bearer token",
     # "api_version"=>"20161115",
     # "response_status"=>200,
-    # "response_header"=>{"X-QueueTimeSeconds"=>"0", "Content-Type"=>"application/json", "Content-Length"=>"819"},
+    # "response_header"=>{"Content-Type"=>"application/json", "Content-Length"=>"819"},
     # "response_body" ....
     # "request_params" ....
     # "duration"
@@ -33,18 +33,22 @@ module Loggie
       "request_method", "path_info", "query_string", "agent", "authorization", "response_body", "request_params"
     ]
 
-    def self.call(result, keep = DEFAULT_KEEP_FIELDS)
-      return if result.nil?
+    def self.call(results, keep = DEFAULT_KEEP_FIELDS)
+      return if results.nil?
 
-      result.map do |r|
-        m = format(r["message"], keep)
-        next if m.empty?
+      results.map do |result|
+        formatted_message = format(result["message"], keep)
+        next if formatted_message.empty?
 
         {
-          timestamp: Time.at(r["timestamp"] / 1000).to_datetime,
-          message: m
+          timestamp: formatted_date(result["timestamp"]),
+          message: formatted_message
         }
       end.compact
+    end
+
+    def self.formatted_date(timestamp)
+      Time.at(timestamp / 1000).to_datetime
     end
 
     def self.format(m, keep)
@@ -62,13 +66,6 @@ module Loggie
       begin
         JSON.parse message
       rescue JSON::ParserError
-        # if save
-        #   @message ||= []
-        #   @message << message
-        #
-        #   res = safe_parse(@message.join, save: false)
-        #   @message = [] if !res.empty?
-        # end
         {}
       end
     end

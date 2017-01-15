@@ -2,5 +2,9 @@
 # Enables search from the console
 
 require "bundler/setup"
+
+require 'dotenv'
+Dotenv.load
+
 require 'loggie'
 puts Loggie.search query: ARGV[0]

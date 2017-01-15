@@ -1,6 +1,3 @@
-require 'dotenv'
-Dotenv.load
-
 require 'active_support/all'
 Time.zone = 'Europe/London'
 
@@ -11,8 +8,6 @@ require "loggie/extract"
 require "loggie/request"
 
 require "loggie/logentries/search"
-
-require 'pry'
 
 module Loggie
   def self.search(query:, from: 1.week.ago, to: Time.zone.now)
