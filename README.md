@@ -42,9 +42,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/loggie.
+Bug reports and pull requests are welcome on GitHub at https://github.com/IanVaughan/loggie.
 
-1. Fork it ( https://github.com/[my-github-username]/titlegen/fork )
+1. Fork it ( https://github.com/IanVaughan/loggie/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
