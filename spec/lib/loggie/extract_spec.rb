@@ -1,10 +1,7 @@
 require 'spec_helper'
+require 'timecop'
 
-RSpec.describe Loggie, :vcr do
-  it 'has a version number' do
-    expect(Loggie::VERSION).not_to be nil
-  end
-
+RSpec.describe Loggie::Extract do
   let(:search) { Loggie.search(query: 'foo') }
   let(:stubbed_result) { 'bar' }
   let(:search_double) { instance_double(Loggie::Logentries::Search, call: stubbed_result) }

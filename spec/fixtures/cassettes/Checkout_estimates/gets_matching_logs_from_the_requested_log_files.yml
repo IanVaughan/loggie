@@ -1,0 +1,121 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://rest.logentries.com/query/logs
+    body:
+      encoding: UTF-8
+      string: '{"logs":["e20bd6af","c83c7cd7","6fb426fd","776dfea9"],"leql":{"during":{"from":1484084504343,"to":1484689304344},"statement":"where(foobar)"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - rest.logentries.com
+      X-Api-Key:
+      - key
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 202
+      message: Accepted
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 17 Jan 2017 21:41:44 GMT
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Ratelimit-Remaining:
+      - '993'
+      X-Ratelimit-Reset:
+      - '510'
+      Content-Length:
+      - '865'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"logs":["e20bd6af","c83c7cd7","6fb426fd","776dfea9"],"progress":0,"links":[{"rel":"Self","href":"https://rest.logentries.com/query/f2122376:0:daabb84:50:c6611df2e551110da3919fcc05294d332c6e3620?log_keys=e20bd6af:c83c7cd7:6fb426fd:776dfea9&query=where(foobar)"}],"id":"f2122376:0:daabb84279:50:c6611df2e5","leql":{"statement":"where(foobar)","during":{"to":null,"from":null}}}'
+    http_version: 
+  recorded_at: Tue, 17 Jan 2017 21:41:44 GMT
+- request:
+    method: get
+    uri: https://rest.logentries.com/query/f2122376:0:daabb84:50:c6611df2e551110da3919fcc05294d332c6e3620?log_keys=e20bd6af:c83c7cd7:6fb426fd:776dfea9&query=where(foobar)
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - rest.logentries.com
+      X-Api-Key:
+      - key
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 17 Jan 2017 21:41:44 GMT
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '415'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"logs":["e20bd6af","c83c7cd7","6fb426fd","776dfea9"],"progress":12,"links":[{"rel":"Self","href":"https://rest.logentries.com/query/f2122376:0:daabb84:50:c6611df2e551110da3919fcc05294d332c6e3620?log_keys=e20bd6af:c83c7cd7:6fb426fd:776dfea9&query=where(foobar)"}],"id":"f2122376:0:daabb8427:50:c6611df2e5","leql":{"statement":"where(foobar)","during":{"to":null,"from":null}}}'
+    http_version: 
+  recorded_at: Tue, 17 Jan 2017 21:41:44 GMT
+- request:
+    method: get
+    uri: https://rest.logentries.com/query/f2122376:0:daabb84:50:c6611df2e551110da3919fcc05294d332c6e3620?log_keys=e20bd6af:c83c7cd7:6fb426fd:776dfea9&query=where(foobar)
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - rest.logentries.com
+      X-Api-Key:
+      - key
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 17 Jan 2017 21:41:45 GMT
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"logs":["e20bd6af","c83c7cd7","6fb426fd","776dfea9"],"events":[{"timestamp":1484407673746,"message":"I,
+        [2017-01-14T15:27:53.586764 #9477]  INFO -- : {\"remote_addr\":\"165.225.80.66\",\"request_method\":\"PUT\",\"path_info\":\"/user\"}"}],"links":[{"rel":"Next","href":"https://rest.logentries.com/query/logs/e20bd6af:c83c7cd7:6fb426fd:776dfea9?query=where(foobar)&from=1484408606893&to=1484689295000&per_page=50&sequence_number=501797563314"}],"leql":{"during":{"from":1484084504343,"to":1484689295000},"statement":"where(foobar)"}}'
+    http_version: 
+  recorded_at: Tue, 17 Jan 2017 21:41:45 GMT
+recorded_with: VCR 2.9.2

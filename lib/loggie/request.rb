@@ -7,48 +7,25 @@ module Loggie
   class Request
     include Logging
     READ_TOKEN = ENV['READ_TOKEN']
-    MAX_RETRY = ENV.fetch('MAX_RETRY', 5).to_i
 
-    # NOTE: This actually nests the retry due to POST then GET!
+    def initialize(retry_mechanism: )
+      @retry_mechanism = retry_mechanism || Retry.new
+    end
+
     def call(url, method: :get, options: nil)
-      with_retry(MAX_RETRY) do
+      retry_mechanism.call(url, method, options) do |url, method, options|
         request(url, method: method, options: options)
       end
     end
 
     private
 
-    def with_retry(count, &block)
-      @retry_count ||= 0
-      response = block.call
-      logger.debug "#{self.class} response:#{response.body}"
-
-      if response.code =~ /2../
-        res = JSON.parse response.read_body
-
-        if res.key?("events")
-          @retry_count = 0
-          res["events"]
-        else
-          @retry_count += 1
-          if @retry_count > MAX_RETRY
-            message = "Retry count of #{MAX_RETRY} reached"
-            logger.error message
-            raise message
-          end
-          call res.fetch("links", [{}]).first.dig("href").gsub(/\?$/, '')
-        end
-      else
-        message = "Failed request with:#{response.message}"
-        logger.error message
-        raise message
-      end
-    end
+    attr_reader :retry_mechanism
 
     def request(url, method:, options: nil)
       encoded_options = URI.encode_www_form(options) if options
       url = if method == :get
-              URI([url, encoded_options].join("?"))
+              URI([url, encoded_options].compact.join("?"))
             else
               URI(url)
             end
@@ -57,8 +34,10 @@ module Loggie
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
       request = if method == :get
+                  # binding.pry
                   Net::HTTP::Get.new(url)
                 else
+                  # binding.pry
                   Net::HTTP::Post.new(url)
                 end
       request["x-api-key"] = READ_TOKEN

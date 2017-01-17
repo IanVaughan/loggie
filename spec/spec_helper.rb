@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 require 'dotenv'
-Dotenv.load
+Dotenv.load('.env.test')
 
 require 'loggie'
 require 'rspec'

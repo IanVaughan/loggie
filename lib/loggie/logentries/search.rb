@@ -17,7 +17,7 @@ module Loggie
         @query, @from, @to = query, from, to
         @log_files = log_files || log_files_from_env
         @extract = Extract.new
-        @request = Request.new
+        @request = Request.new(retry_mechanism: Retry.new)
       end
 
       def call(query: nil, from: nil, to: nil, log_files: nil)
