@@ -1,9 +1,11 @@
 require 'logger'
 
 module Logging
+  LOG_LEVEL = ENV.fetch('LOG_LEVEL', :warn).to_sym
+
   class << self
     def logger
-      @logger ||= ::Logger.new($stdout)
+      @logger ||= ::Logger.new(STDOUT).tap { |l| l.level = LOG_LEVEL }
     end
 
     def logger=(logger)

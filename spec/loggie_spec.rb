@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Loggie do
+RSpec.describe Loggie, :vcr do
   it 'has a version number' do
     expect(Loggie::VERSION).not_to be nil
   end
