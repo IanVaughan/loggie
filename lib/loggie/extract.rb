@@ -40,14 +40,17 @@ module Loggie
       "request_method", "path_info", "query_string", "agent", "authorization", "response_body", "request_params"
     ]
 
+    def initialize
+      @keep_fields = DEFAULT_FIELDS_INCLUDED
+    end
+
     ##
     # @param [Array] results hash from the request
-    # @param [Array] keep list of fields to return from results hash
-    def call(results, keep = DEFAULT_FIELDS_INCLUDED)
+    def call(results)
       return if results.nil?
 
       results.map do |result|
-        formatted_message = format(result["message"], keep)
+        formatted_message = format(result["message"])
         next if formatted_message.empty?
 
         {
@@ -59,15 +62,17 @@ module Loggie
 
     private
 
+    attr_reader :keep_fields
+
     def formatted_date(timestamp)
       Time.at(timestamp / 1000).to_datetime
     end
 
-    def format(m, keep)
+    def format(m)
       m = remove_rails_timestamp(m)
       m = safe_parse(m)
       m = remove_empty_fields(m)
-      m.except(*keep)
+      m.except(*keep_fields)
     end
 
     def remove_rails_timestamp(message)

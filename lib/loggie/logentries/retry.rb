@@ -21,7 +21,7 @@ module Loggie
 
         res = Response.new response
         return res.events if res.events?
-        logger.info "Logentries returned progrss:#{res.progress}"
+        logger.info "Logentries returned progress:#{res.progress}"
 
         @retry_count += 1
         if @retry_count > MAX_RETRY

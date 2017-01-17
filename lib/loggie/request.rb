@@ -24,20 +24,20 @@ module Loggie
 
     def request(url, method:, options: nil)
       encoded_options = URI.encode_www_form(options) if options
+
       url = if method == :get
               URI([url, encoded_options].compact.join("?"))
             else
               URI(url)
             end
+
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
       request = if method == :get
-                  # binding.pry
                   Net::HTTP::Get.new(url)
                 else
-                  # binding.pry
                   Net::HTTP::Post.new(url)
                 end
       request["x-api-key"] = READ_TOKEN
