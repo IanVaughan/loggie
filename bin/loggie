@@ -5,6 +5,9 @@ require "bundler/setup"
 
 require 'dotenv'
 Dotenv.load
+Dotenv.load(".loggie.env")
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 
 require 'loggie'
 puts Loggie.search query: ARGV[0]
