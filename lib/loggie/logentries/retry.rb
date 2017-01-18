@@ -9,6 +9,10 @@ module Loggie
       RETRY_DELAY_SECONDS = ENV.fetch('RETRY_DELAY_SECONDS', 0.2).to_f
       MAX_RETRY_DELEY_SECONDS = 20 # max 20 seconds, or it will expire
 
+      class RetryError < RuntimeError; end
+      class RetryCountExceededError < RetryError; end
+      class RetryResponseError < RetryError; end
+
       def call(url, method, options, &block)
         # TODO: ensure retry_count is reset or if that matters
         @retry_count ||= 0
@@ -16,7 +20,7 @@ module Loggie
         logger.debug "#{self.class} retry:#{@retry_count}, response:#{response.body}"
 
         if response.code.to_i > 203
-          log_and_raise "Failed request with:#{response.message}"
+          raise RetryCountExceededError, "Failed request with:#{response.message}"
         end
 
         res = Response.new response
@@ -25,19 +29,16 @@ module Loggie
 
         @retry_count += 1
         if @retry_count > MAX_RETRY
-          log_and_raise "Retry count of #{MAX_RETRY} reached"
+          raise RetryCountExceededError, "Retry count of #{MAX_RETRY} reached"
         end
 
         sleep RETRY_DELAY_SECONDS
 
         self.call(res.next_url, :get, nil, &block)
-      end
 
-      private
-
-      def log_and_raise(message)
-        logger.error message
-        raise message
+      rescue RetryError => e
+        logger.error e.message
+        nil
       end
     end
   end
