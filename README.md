@@ -16,33 +16,9 @@ Or install it yourself as:
 
     $ gem install loggie
 
-## Usage
-
-```ruby
-Loggie.search(query: "foobar")
-  => {:timestamp=>Sun, 08 Jan 2017 01:00:58 +0000,
-  :message=>
-  { "remote_addr"=>"11.11.36.72",
-    "version"=>"HTTP/1.1",
-    "host"=>"host.com",
-    "x_forwared_for"=>"11.11.11.11",
-    ...
-
-```
-
-Or, use from the command line with:
-
-`loggie foobar`
-
-env is required for command line usage, and can be prefixed to the command, eg:
-
-`READ_TOKEN=abc LOG_FILES=x,y,z loggie foobar`
-
-Or the create a `.loggie` file in the current path.
-
 ## Configuring Loggie
 
-```
+```ruby
 Loggie.configure do |config|
   # from https://logentries.com/app/<app>#/user-account/apikey
   config.read_token = 'key'
@@ -65,6 +41,30 @@ Loggie.configure do |config|
   config.default_fields_included = ["keys", "from", "log", "output"]
 end
 ```
+
+## Usage
+
+```ruby
+Loggie.search(query: "foobar")
+  => {:timestamp=>Sun, 08 Jan 2017 01:00:58 +0000,
+  :message=>
+  { "remote_addr"=>"11.11.36.72",
+    "version"=>"HTTP/1.1",
+    "host"=>"host.com",
+    "x_forwared_for"=>"11.11.11.11",
+    ...
+
+```
+
+Or, use from the command line with:
+
+`loggie foobar`
+
+env is required for command line usage, and can be prefixed to the command, eg:
+
+`READ_TOKEN=abc LOG_FILES=x,y,z loggie foobar`
+
+Or the create a `.loggie` file somewhere in the current path.
 
 ## Development
 
