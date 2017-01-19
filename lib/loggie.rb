@@ -13,7 +13,7 @@ require "loggie/logentries/retry"
 require "loggie/logentries/response"
 
 module Loggie
-  def self.search(query:, from: 1.week.ago, to: Time.zone.now)
-    Logentries::Search.new(query: query, from: from, to: to).call
+  def self.search(query:, from: 1.week.ago, to: Time.zone.now, &block)
+    Logentries::Search.new(query: query, from: from, to: to, block: block).call
   end
 end

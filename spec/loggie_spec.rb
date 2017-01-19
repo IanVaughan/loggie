@@ -11,8 +11,10 @@ RSpec.describe Loggie, :vcr do
 
   it 'passes the parmms to a search' do
     Timecop.freeze do
-      params = { query: 'foo', from: 1.week.ago, to: Time.zone.now }
-      expect(Loggie::Logentries::Search).to receive(:new).with(params).and_return(search_double)
+      params = { query: 'foo', from: 1.week.ago, to: Time.zone.now, block: nil }
+      expect(Loggie::Logentries::Search).to(
+        receive(:new).with(params).and_return(search_double)
+      )
       expect(search).to eq(stubbed_result)
     end
   end

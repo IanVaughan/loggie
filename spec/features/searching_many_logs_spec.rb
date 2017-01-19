@@ -10,7 +10,8 @@ RSpec.describe "Checkout estimates", type: :feature, vcr: true do
   it "gets matching logs from the requested log files" do
     Timecop.freeze test_time
 
-    res = Loggie.search(query: 'foobar')
+    expect { |b| @res = Loggie.search(query: "foobar", &b) }.to yield_successive_args(0, 12)
+    res = @res
 
     body = {
       logs: ["e20bd6af", "c83c7cd7", "6fb426fd", "776dfea9"],

@@ -45,7 +45,7 @@ end
 ## Usage
 
 ```ruby
-Loggie.search(query: "foobar")
+Loggie.search(query: "foobar") { |progress| puts "#{progress}% there!" }
   => {:timestamp=>Sun, 08 Jan 2017 01:00:58 +0000,
   :message=>
   { "remote_addr"=>"11.11.36.72",

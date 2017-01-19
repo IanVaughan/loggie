@@ -10,10 +10,13 @@ module Loggie
       class RetryCountExceededError < RetryError; end
       class RetryResponseError < RetryError; end
 
-      def initialize
+      MIN_ACCEPTED_SUCCESS_STATUS_CODE = 203
+
+      def initialize(block: nil)
         @retry_count = 0
         @max_retry = Loggie.configuration.max_retry
         @sleep_before_retry_seconds = Loggie.configuration.sleep_before_retry_seconds
+        @user_block = block
       end
 
       def call(url, method, options, &block)
@@ -21,13 +24,14 @@ module Loggie
         response = block.call(url, method, options)
         logger.debug "#{self.class} retry:#{@retry_count}, response:#{response.body}"
 
-        if response.code.to_i > 203
+        if response.code.to_i > MIN_ACCEPTED_SUCCESS_STATUS_CODE
           raise RetryCountExceededError, "Failed request with:#{response.message}"
         end
 
         res = Response.new response
         return res.events if res.events?
-        logger.info "Logentries returned progress:#{res.progress}"
+        logger.debug "Logentries returned progress:#{res.progress}"
+        user_block.call(res.progress) if user_block
 
         @retry_count += 1
         if @retry_count > max_retry
@@ -45,7 +49,7 @@ module Loggie
 
       private
 
-      attr_reader :max_retry, :sleep_before_retry_seconds
+      attr_reader :max_retry, :sleep_before_retry_seconds, :user_block
     end
   end
 end

@@ -12,11 +12,11 @@ module Loggie
       # @param [DateTime] to: query to date
       # @param [Array] log_files: list of log id files to search. default ENV['LOG_FILES']
       #
-      def initialize(query: nil, from: nil, to: nil, log_files: nil)
+      def initialize(query: nil, from: nil, to: nil, log_files: nil, block: nil)
         @query, @from, @to = query, from, to
         @log_files = log_files || Loggie.configuration.log_files
         @extract = Extract.new
-        @request = Request.new(retry_mechanism: Retry.new)
+        @request = Request.new(retry_mechanism: Retry.new(block: block))
       end
 
       def call(query: nil, from: nil, to: nil, log_files: nil)

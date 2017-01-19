@@ -20,7 +20,7 @@ module Loggie
 
     def initialize
       @max_retry = 50
-      @log_level = :info
+      @log_level = :fatal
       @sleep_before_retry_seconds = 0.5
       @default_fields_included = [
         "request_method", "path_info", "query_string", "agent", 
