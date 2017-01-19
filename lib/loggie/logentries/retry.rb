@@ -30,21 +30,21 @@ module Loggie
 
         res = Response.new response
         return res.events if res.events?
-        logger.debug "Logentries returned progress:#{res.progress}"
-        user_block.call(res.progress) if user_block
 
         @retry_count += 1
         if @retry_count > max_retry
           raise RetryCountExceededError, "Retry count of #{max_retry} reached"
         end
+        logger.debug "Logentries returned progress:#{res.progress}, retry_count:#{@retry_count}"
+        user_block.call(res.progress, @retry_count) if user_block
 
         sleep sleep_before_retry_seconds
 
         self.call(res.next_url, :get, nil, &block)
 
       rescue RetryError => e
-        logger.error e.message
-        nil
+        logger.info e.message
+        []
       end
 
       private
