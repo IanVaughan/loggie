@@ -1,11 +1,9 @@
 require 'logger'
 
 module Logging
-  LOG_LEVEL = ENV.fetch('LOG_LEVEL', :warn).to_sym
-
   class << self
     def logger
-      @logger ||= ::Logger.new(STDOUT).tap { |l| l.level = LOG_LEVEL }
+      @logger ||= ::Logger.new(STDOUT).tap { |l| l.level = Loggie.configuration.log_level }
     end
 
     def logger=(logger)

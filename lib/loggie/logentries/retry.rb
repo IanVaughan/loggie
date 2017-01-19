@@ -5,16 +5,18 @@ module Loggie
     # It checks the response and extracts the polling URI for progress
     class Retry
       include Logging
-      MAX_RETRY = ENV.fetch('MAX_RETRY', 5).to_i
-      RETRY_DELAY_SECONDS = ENV.fetch('RETRY_DELAY_SECONDS', 0.2).to_f
-      MAX_RETRY_DELEY_SECONDS = 20 # max 20 seconds, or it will expire
 
       class RetryError < RuntimeError; end
       class RetryCountExceededError < RetryError; end
       class RetryResponseError < RetryError; end
 
+      def initialize
+        @retry_count = 0
+        @max_retry = Loggie.configuration.max_retry
+        @sleep_before_retry_seconds = Loggie.configuration.sleep_before_retry_seconds
+      end
+
       def call(url, method, options, &block)
-        # TODO: ensure retry_count is reset or if that matters
         @retry_count ||= 0
         response = block.call(url, method, options)
         logger.debug "#{self.class} retry:#{@retry_count}, response:#{response.body}"
@@ -28,11 +30,11 @@ module Loggie
         logger.info "Logentries returned progress:#{res.progress}"
 
         @retry_count += 1
-        if @retry_count > MAX_RETRY
-          raise RetryCountExceededError, "Retry count of #{MAX_RETRY} reached"
+        if @retry_count > max_retry
+          raise RetryCountExceededError, "Retry count of #{max_retry} reached"
         end
 
-        sleep RETRY_DELAY_SECONDS
+        sleep sleep_before_retry_seconds
 
         self.call(res.next_url, :get, nil, &block)
 
@@ -40,6 +42,10 @@ module Loggie
         logger.error e.message
         nil
       end
+
+      private
+
+      attr_reader :max_retry, :sleep_before_retry_seconds
     end
   end
 end

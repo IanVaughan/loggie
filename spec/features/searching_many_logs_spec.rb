@@ -30,6 +30,6 @@ RSpec.describe "Checkout estimates", type: :feature, vcr: true do
       headers: { 'X-Api-Key' => 'bf3b4d32' },
     ).twice
 
-    expect(res.first[:message]).to eq("remote_addr"=>"165.225.80.66")
+    expect(res.first[:message]).to eq("path_info"=>"/user", "request_method"=>"PUT")
   end
 end

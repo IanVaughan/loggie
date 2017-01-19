@@ -6,7 +6,6 @@ module Loggie
   # polling long running queries on remote server
   class Request
     include Logging
-    READ_TOKEN = ENV['READ_TOKEN']
 
     def initialize(retry_mechanism: )
       @retry_mechanism = retry_mechanism || Retry.new
@@ -40,7 +39,7 @@ module Loggie
                 else
                   Net::HTTP::Post.new(url)
                 end
-      request["x-api-key"] = READ_TOKEN
+      request["x-api-key"] = Loggie.configuration.read_token
 
       if method == :post
         request["content-type"] = 'application/json'

@@ -34,6 +34,38 @@ Or, use from the command line with:
 
 `loggie foobar`
 
+env is required for command line usage, and can be prefixed to the command, eg:
+
+`READ_TOKEN=abc LOG_FILES=x,y,z loggie foobar`
+
+Or the create a `.loggie` file in the current path.
+
+## Configuring Loggie
+
+```
+Loggie.configure do |config|
+  # from https://logentries.com/app/<app>#/user-account/apikey
+  config.read_token = 'key'
+
+  # A comma separated list of log file ids
+  config.log_files = ['e20bd6af', 'c83c7cd7', '6fb426fd', '776dfea9']
+
+  # Depending on the size of the underlying dataset of the complexity of the query,
+  # a request may not yield a value straight away. In this case this gem will request
+  # the results up until this retry count
+  config.max_retry = 50
+
+  # Time to sleep before each retry, smaller value will poll more
+  # and could get get result quicker, but will eat into rate limit
+  # of request count
+  config.sleep_before_retry_seconds = 0.5
+
+  # If the log message is JSON parsable, then it will slice off all but
+  # the ones listed here. Whole log line is returned otherwise.
+  config.default_fields_included = ["keys", "from", "log", "output"]
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

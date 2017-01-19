@@ -36,12 +36,8 @@ module Loggie
     #  "request_params" ....
     #  "duration"
 
-    DEFAULT_FIELDS_INCLUDED = [
-      "request_method", "path_info", "query_string", "agent", "authorization", "response_body", "request_params"
-    ]
-
     def initialize
-      @keep_fields = DEFAULT_FIELDS_INCLUDED
+      @keep_fields = Loggie.configuration.default_fields_included
     end
 
     ##
@@ -72,7 +68,7 @@ module Loggie
       m = remove_rails_timestamp(m)
       m = safe_parse(m)
       m = remove_empty_fields(m)
-      m.except(*keep_fields)
+      m.slice(*keep_fields)
     end
 
     def remove_rails_timestamp(message)

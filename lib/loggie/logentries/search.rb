@@ -5,7 +5,6 @@ module Loggie
       include Logging
       BASE_URI = "https://rest.logentries.com"
       QUERY_PATH = "query/logs"
-      LOG_FILES = ENV['LOG_FILES']
 
       ##
       # @param [String] query: to perform
@@ -15,7 +14,7 @@ module Loggie
       #
       def initialize(query: nil, from: nil, to: nil, log_files: nil)
         @query, @from, @to = query, from, to
-        @log_files = log_files || log_files_from_env
+        @log_files = log_files || Loggie.configuration.log_files
         @extract = Extract.new
         @request = Request.new(retry_mechanism: Retry.new)
       end
@@ -51,10 +50,6 @@ module Loggie
 
       def convert(time)
         (time.to_f * 1000).floor
-      end
-
-      def log_files_from_env
-        LOG_FILES&.split(",")
       end
     end
   end

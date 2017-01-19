@@ -3,6 +3,7 @@ Time.zone = 'Europe/London'
 
 require "loggie/version"
 require "loggie/logging"
+require 'loggie/configuration'
 
 require "loggie/extract"
 require "loggie/request"
