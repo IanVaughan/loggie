@@ -1,4 +1,4 @@
-# Loggie
+# Loggie [![CircleCI](https://circleci.com/gh/IanVaughan/loggie.svg?style=svg)](https://circleci.com/gh/IanVaughan/loggie) [![Gem Version](https://badge.fury.io/rb/loggie.svg)](https://badge.fury.io/rb/loggie)
 
 ## Installation
 
