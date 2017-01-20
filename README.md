@@ -1,5 +1,11 @@
 # Loggie [![CircleCI](https://circleci.com/gh/IanVaughan/loggie.svg?style=svg)](https://circleci.com/gh/IanVaughan/loggie) [![Gem Version](https://badge.fury.io/rb/loggie.svg)](https://badge.fury.io/rb/loggie)
 
+Loggie is a log aggregator to query your logs that have been pushed to third party log hosting providers.
+
+It uses adapters to query different providers, and currently supports the following :
+
+* Logentries
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -16,7 +22,7 @@ Or install it yourself as:
 
     $ gem install loggie
 
-## Configuring Loggie
+## Configuring
 
 ```ruby
 Loggie.configure do |config|
@@ -71,6 +77,8 @@ Or the create a `.loggie` file somewhere in the current path.
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+To add a new adapter, create the directory in `/lib/loggie/name-of-adapter`.
 
 ## Contributing
 
