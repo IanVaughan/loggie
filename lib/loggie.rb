@@ -14,6 +14,7 @@ require "loggie/logentries/response"
 
 module Loggie
   def self.search(query:, from: 1.week.ago, to: Time.zone.now, &block)
+    configure
     Logentries::Search.new(query: query, from: from, to: to, block: block).call
   end
 end
