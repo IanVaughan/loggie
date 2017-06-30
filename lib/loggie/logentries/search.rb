@@ -1,6 +1,7 @@
 module Loggie
   module Logentries
     # Main entry point to query a specific log source
+    # https://docs.logentries.com/v1.0/docs/get-query
     class Search
       include Logging
       BASE_URI = "https://rest.logentries.com"
