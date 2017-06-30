@@ -30,6 +30,8 @@ Loggie.configure do |config|
   config.read_token = 'key'
 
   # A comma separated list of log file ids
+  # From LogEntries logset "KEY: 83cacd7-ad66-4f6d-9171-00dd478gbd11
+  # "Use the key with our REST API to query the log."
   config.log_files = ['e20bd6af', 'c83c7cd7', '6fb426fd', '776dfea9']
 
   # Depending on the size of the underlying dataset of the complexity of the query,
