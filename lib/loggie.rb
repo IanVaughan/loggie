@@ -16,4 +16,8 @@ module Loggie
   def self.search(query:, from: 1.week.ago, to: Time.zone.now, &block)
     Logentries::Search.new(query: query, from: from, to: to, block: block).call
   end
+
+  def self.logs
+    Logentries::Search.new(query: query, from: from, to: to, block: block).call
+  end
 end

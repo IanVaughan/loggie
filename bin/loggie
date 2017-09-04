@@ -6,4 +6,16 @@ require "bundler/setup"
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 
 require 'loggie'
+
+# READ_TOKEN='bf3b4d32-31a5-4039-aa0e-d4b887b23db2'
+# LOG_FILES=['e20bd6af-dc1e-4190-ba25-c5948d92a679','c83c7cd7-aa66-446d-9e71-00f8478cbd11','6fb426fd-dea7-4712-99b1-66ca59084ab8','776dfea9-7bd4-4a64-8deb-1fab6f26f599']
+
+READ_TOKEN = ENV['LE_READ_TOKEN']
+LOG_FILES = ENV['LE_LOG_FILES']&.split(',')
+
+Loggie.configure do |config|
+  config.read_token = READ_TOKEN
+  config.log_files = LOG_FILES
+end
+
 puts Loggie.search query: ARGV[0]
