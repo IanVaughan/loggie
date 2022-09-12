@@ -16,11 +16,11 @@ gem 'loggie'
 
 And then execute:
 
-    $ bundle
+    bundle
 
 Or install it yourself as:
 
-    $ gem install loggie
+    gem install loggie
 
 ## Configuring
 
@@ -52,6 +52,9 @@ end
 
 ## Usage
 
+irb -r ./lib/loggie
+
+
 ```ruby
 Loggie.search(query: "foobar") { |progress| puts "#{progress}% there!" }
   => {:timestamp=>Sun, 08 Jan 2017 01:00:58 +0000,
@@ -61,6 +64,8 @@ Loggie.search(query: "foobar") { |progress| puts "#{progress}% there!" }
     "host"=>"host.com",
     "x_forwared_for"=>"11.11.11.11",
     ...
+
+Loggie.search(query: "service:(shopify-sync-staging OR out-fund-staging) @class:ShopifyRawOrderTransactionsConsumer")
 
 ```
 
@@ -84,9 +89,9 @@ To add a new adapter, create the directory in `/lib/loggie/name-of-adapter`.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/IanVaughan/loggie.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/IanVaughan/loggie>.
 
-1. Fork it ( https://github.com/IanVaughan/loggie/fork )
+1. Fork it ( <https://github.com/IanVaughan/loggie/fork> )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

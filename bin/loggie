@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # Enables search from the console
 
-require "bundler/setup"
+# require "bundler/setup"
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 

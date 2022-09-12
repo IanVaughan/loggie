@@ -4,7 +4,9 @@ module Loggie
   end
 
   READ_TOKEN = ENV['READ_TOKEN']
-  LOG_FILES = ENV['LOG_FILES'].split(",")
+  LOG_FILES = ENV['LOG_FILES']&.split(",")
+  API_KEY = ENV['API_KEY']
+  APP_KEY = ENV['APP_KEY']
 
   def self.configure
     self.configuration ||= Configuration.new
@@ -20,17 +22,23 @@ module Loggie
     attr_accessor :log_level
     attr_accessor :sleep_before_retry_seconds
     attr_accessor :default_fields_included
+    attr_accessor :api_key
+    attr_accessor :app_key
+    attr_accessor :provider
 
     def initialize
       @max_retry = 50
       @log_level = :debug
       @log_files = LOG_FILES
       @read_token = READ_TOKEN
-      @sleep_before_retry_seconds = 0.5
+      @api_key = API_KEY
+      @app_key = APP_KEY
+      @sleep_before_retry_seconds = 3
       @default_fields_included = [
         "request_method", "path_info", "query_string", "agent",
         "authorization", "response_body", "request_params"
       ]
+      @provider = Datadog
     end
 
     def valid?
