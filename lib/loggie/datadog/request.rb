@@ -24,9 +24,7 @@ module Loggie
         request.body = JSON.dump(options)
       end
 
-      # http.request(request)
-      http.request(request).read_body
-      # puts response.read_body
+      http.request(request)
     end
   end
 end

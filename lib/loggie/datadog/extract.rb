@@ -61,14 +61,14 @@ module Loggie
 
     def parse
       # @logs = data["data"]
-      parsed = JSON.parse(results)
+      parsed = JSON.parse(results.read_body)
       @data = parsed["data"]
       @next_url = parsed.dig("links", "next")
       # JSON.parse(results)["data"][0]["attributes"]["attributes"]["message"]
     end
 
     def messages
-      return if data.empty?
+      return [] if data.empty?
 
       data.map do |result|
         begin

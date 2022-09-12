@@ -16,18 +16,15 @@ module Loggie
       def initialize(query: nil, from: nil, to: nil, log_files: nil, block: nil)
         @query, @from, @to = query, from, to
         @log_files = log_files || Loggie.configuration.log_files
-        # @request = Request.new(retry_mechanism: Retry.new(block: block))
         @request = Request.new
-        # @extract = Extract.new
         @extracts = []
         @request_delay_seconds = Loggie.configuration.sleep_before_retry_seconds
       end
 
       def call(query: nil, from: nil, to: nil)
         options = parsed_post_params(query || @query, from || @from, to || @to)
-
         make_request(url, method: :post, options: options)
-        extracts.map(&:messages)
+        extracts.flat_map(&:messages)
       end
 
       private
@@ -35,9 +32,11 @@ module Loggie
       attr_reader :request, :extracts, :request_delay_seconds
 
       def make_request(url, method: :get, options: nil)
-        logger.debug "#{self.class} options:#{options}, url:#{url}, sleep:#{request_delay_seconds}"
-        data = request.call(url, method: method, options: options)
-        extract = Extract.new(data)
+        response = Retry.new.call(url, method, options) do
+          logger.debug "#{self.class} options:#{options}, url:#{url}, sleep:#{request_delay_seconds}"
+          request.call(url, method: method, options: options)
+        end
+        extract = Extract.new(response)
         extract.parse
         extracts << extract
         sleep request_delay_seconds
